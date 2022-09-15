@@ -551,7 +551,8 @@ the <code>lm()</code> and <code>boxplot()</code> functions. Try using
 if body weights differe among species.</strong> You might need to search
 the internet for how to specify formulas in R.</p>
 <p><br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
-<br> <br> <br> <br> <br> <br> <br> <br></p>
+<br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
+<br> <br> <br> <br></p>
 <pre class="r"><code>res.aov &lt;- aov(Weight..g. ~ Species, data = fish_dat)
 summary(res.aov)</code></pre>
 <pre><code>##              Df Sum Sq Mean Sq F value Pr(&gt;F)    
@@ -559,6 +560,7 @@ summary(res.aov)</code></pre>
 ## Residuals   402  13245    32.9                   
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p><br></p>
 <p>Looks like we have some some highly significant differences among the
 species here. ANOVA itself won’t tell us what is different from what,
 though, so let’s run a quick Tukey post-hoc test.</p>

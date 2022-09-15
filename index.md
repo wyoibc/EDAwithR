@@ -12,7 +12,9 @@ date: September 22, 2022
 
 [1. Importing Data into R](001_Importing_Data/import.html)
 
-[2. Exploratory Analysis](002_Data_Exploration/explore.html)
+[1. Manipulating Data in R](002_Manipulating_Data/R_Data_manip.html)
+
+[3. Exploratory Analysis](003_Data_Exploration/explore.html)
 
 
 

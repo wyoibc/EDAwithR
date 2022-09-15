@@ -14,9 +14,9 @@ date: September 22, 2022
 
 [2. Manipulating Data in R](002_Manipulating_Data/R_Data_manip.html)
 
-[3. Exploratory Analysis](003_Data_Exploration/explore.html)
+[3. Exploratory Analysis in base R](003_Data_Exploration_base_r/explore_base_r.html)
 
-
+[4. Exploratory Analysis in Tidyverse](004_Data_Exploration_tidyr/explore_tidyverse.html)
 
 
 <br><br><br><Br><br>

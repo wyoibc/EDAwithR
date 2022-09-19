@@ -47,13 +47,43 @@ Cool, that looks good to me.
 We can easily read these in using `read.csv()` and store the data in an object:
 
 ```{r}
-colleges <- read.csv("covid_colleges.csv")
-head(colleges) # look at the top of the data
+states <- read.csv("covid_us-states.csv")
+head(states) # look at the top of the data
 ```
 
 
+There are a few other arguments in `read.csv()` that you may want to explore depending on your dataset, e.g., in the event that your .csv file does not start with a row of column names but instead immediately starts with your data, you will want to set `header = FALSE`.
 
 
 
+<br>
+
+
+### Reading in a tab delimited file
+
+Tab delimited files are another super common data format for import into R. We can import these using `read.delim`.
+
+
+```{r}
+woodpeckers <- read.delim("Acorn_Woodpecker.txt")
+head(woodpeckers)
+```
+
+<br>
+
+### Reading in lines of text
+
+You can also read in lines of text from a plain text file without imposing any formatting on the object. I have used this to read in log files and search for specific words or values in the files.
+
+```{r}
+woodpeckers_lines <- readLines("Acorn_Woodpecker.txt")
+head(woodpeckers_lines)
+```
+
+
+<br>
+
+
+There are many other functions for reading data into R, including several Tidyverse functions that we'll touch on briefly as well as many others from other packages.
 
 

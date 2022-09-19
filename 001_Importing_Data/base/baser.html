@@ -407,15 +407,89 @@ are one of the most common ways that data are stored for import into
 R.</p>
 <p>We can easily read these in using <code>read.csv()</code> and store
 the data in an object:</p>
-<pre class="r"><code>colleges &lt;- read.csv(&quot;covid_colleges.csv&quot;)
-head(colleges) # look at the top of the data</code></pre>
-<pre><code>##                            date.state.county.city.ipeds_id.college.cases.cases_2021.notes
-## 1                2021-05-26;Alabama;Madison;Huntsville;100654;Alabama A&amp;M University;41;;
-## 2            2021-05-26;Alabama;Montgomery;Montgomery;100724;Alabama State University;2;;
-## 3               2021-05-26;Alabama;Limestone;Athens;100812;Athens State University;45;10;
-## 4                        2021-05-26;Alabama;Lee;Auburn;100858;Auburn University;2742;567;
-## 5 2021-05-26;Alabama;Montgomery;Montgomery;100830;Auburn University at Montgomery;220;80;
-## 6              2021-05-26;Alabama;Walker;Jasper;102429;Bevill State Community College;4;;</code></pre>
+<pre class="r"><code>states &lt;- read.csv(&quot;covid_us-states.csv&quot;)
+head(states) # look at the top of the data</code></pre>
+<pre><code>##         date      state fips cases deaths
+## 1 2020-01-21 Washington   53     1      0
+## 2 2020-01-22 Washington   53     1      0
+## 3 2020-01-23 Washington   53     1      0
+## 4 2020-01-24   Illinois   17     1      0
+## 5 2020-01-24 Washington   53     1      0
+## 6 2020-01-25 California    6     1      0</code></pre>
+<p>There are a few other arguments in <code>read.csv()</code> that you
+may want to explore depending on your dataset, e.g., in the event that
+your .csv file does not start with a row of column names but instead
+immediately starts with your data, you will want to set
+<code>header = FALSE</code>.</p>
+<p><br></p>
+</div>
+<div id="reading-in-a-tab-delimited-file" class="section level3">
+<h3>Reading in a tab delimited file</h3>
+<p>Tab delimited files are another super common data format for import
+into R. We can import these using <code>read.delim</code>.</p>
+<pre class="r"><code>woodpeckers &lt;- read.delim(&quot;Acorn_Woodpecker.txt&quot;)
+head(woodpeckers)</code></pre>
+<pre><code>##   Site_ID Latitude Longitude Elevation_in_Meters State Species_ID      Genus
+## 1   18465 39.73283 -121.8333                  61    CA       1229 Melanerpes
+## 2   18465 39.73283 -121.8333                  61    CA       1229 Melanerpes
+## 3   18465 39.73283 -121.8333                  61    CA       1229 Melanerpes
+## 4   18465 39.73283 -121.8333                  61    CA       1229 Melanerpes
+## 5   18465 39.73283 -121.8333                  61    CA       1229 Melanerpes
+## 6   18465 39.73283 -121.8333                  61    CA       1229 Melanerpes
+##        Species      Common_Name  Kingdom Individual_ID Phenophase_ID
+## 1 formicivorus acorn woodpecker Animalia         72940           292
+## 2 formicivorus acorn woodpecker Animalia         72940           293
+## 3 formicivorus acorn woodpecker Animalia         72940           297
+## 4 formicivorus acorn woodpecker Animalia         72940           310
+## 5 formicivorus acorn woodpecker Animalia         72940           312
+## 6 formicivorus acorn woodpecker Animalia         72940           446
+##   Phenophase_Description First_Yes_Year First_Yes_Month First_Yes_Day
+## 1       Live individuals           2013              10             3
+## 2  Calls or song (birds)           2013              10             3
+## 3  Nest building (birds)           2013              10             3
+## 4 Fruit/seed consumption           2013              12             2
+## 5      Flower visitation           2013              10             3
+## 6                Feeding           2013              10            27
+##   First_Yes_DOY First_Yes_Julian_Date NumDays_Since_Prior_No Last_Yes_Year
+## 1           276               2456569                  -9999          2013
+## 2           276               2456569                  -9999          2013
+## 3           276               2456569                  -9999          2013
+## 4           336               2456629                     36          2013
+## 5           276               2456569                  -9999          2013
+## 6           300               2456593                     24          2013
+##   Last_Yes_Month Last_Yes_Day Last_Yes_DOY Last_Yes_Julian_Date
+## 1             12            2          336              2456629
+## 2             10            3          276              2456569
+## 3             10            3          276              2456569
+## 4             12            2          336              2456629
+## 5             10            3          276              2456569
+## 6             12            2          336              2456629
+##   NumDays_Until_Next_No
+## 1                    20
+## 2                    24
+## 3                    24
+## 4                    20
+## 5                    24
+## 6                    20</code></pre>
+<p><br></p>
+</div>
+<div id="reading-in-lines-of-text" class="section level3">
+<h3>Reading in lines of text</h3>
+<p>You can also read in lines of text from a plain text file without
+imposing any formatting on the object. I have used this to read in log
+files and search for specific words or values in the files.</p>
+<pre class="r"><code>woodpeckers_lines &lt;- readLines(&quot;Acorn_Woodpecker.txt&quot;)
+head(woodpeckers_lines)</code></pre>
+<pre><code>## [1] &quot;Site_ID\tLatitude\tLongitude\tElevation_in_Meters\tState\tSpecies_ID\tGenus\tSpecies\tCommon_Name\tKingdom\tIndividual_ID\tPhenophase_ID\tPhenophase_Description\tFirst_Yes_Year\tFirst_Yes_Month\tFirst_Yes_Day\tFirst_Yes_DOY\tFirst_Yes_Julian_Date\tNumDays_Since_Prior_No\tLast_Yes_Year\tLast_Yes_Month\tLast_Yes_Day\tLast_Yes_DOY\tLast_Yes_Julian_Date\tNumDays_Until_Next_No&quot;
+## [2] &quot;18465\t39.732826\t-121.833267\t61\tCA\t1229\tMelanerpes\tformicivorus\tacorn woodpecker\tAnimalia\t72940\t292\tLive individuals\t2013\t10\t3\t276\t2456569\t-9999\t2013\t12\t2\t336\t2456629\t20&quot;                                                                                                                                                                                      
+## [3] &quot;18465\t39.732826\t-121.833267\t61\tCA\t1229\tMelanerpes\tformicivorus\tacorn woodpecker\tAnimalia\t72940\t293\tCalls or song (birds)\t2013\t10\t3\t276\t2456569\t-9999\t2013\t10\t3\t276\t2456569\t24&quot;                                                                                                                                                                                 
+## [4] &quot;18465\t39.732826\t-121.833267\t61\tCA\t1229\tMelanerpes\tformicivorus\tacorn woodpecker\tAnimalia\t72940\t297\tNest building (birds)\t2013\t10\t3\t276\t2456569\t-9999\t2013\t10\t3\t276\t2456569\t24&quot;                                                                                                                                                                                 
+## [5] &quot;18465\t39.732826\t-121.833267\t61\tCA\t1229\tMelanerpes\tformicivorus\tacorn woodpecker\tAnimalia\t72940\t310\tFruit/seed consumption\t2013\t12\t2\t336\t2456629\t36\t2013\t12\t2\t336\t2456629\t20&quot;                                                                                                                                                                                   
+## [6] &quot;18465\t39.732826\t-121.833267\t61\tCA\t1229\tMelanerpes\tformicivorus\tacorn woodpecker\tAnimalia\t72940\t312\tFlower visitation\t2013\t10\t3\t276\t2456569\t-9999\t2013\t10\t3\t276\t2456569\t24&quot;</code></pre>
+<p><br></p>
+<p>There are many other functions for reading data into R, including
+several Tidyverse functions that we’ll touch on briefly as well as many
+others from other packages.</p>
 </div>
 
 

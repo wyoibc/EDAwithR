@@ -1,0 +1,59 @@
+---
+title: "Importing data in base R"
+author: "Sean Harrington"
+date: "2022/09/22"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = '~/EDAwithR/001_Importing_Data/tidyverse/data/')
+
+```
+
+
+We'll start with a quick demonstration of how to read data into R using base R functions. These are functions that are part of R's basic install, which means that you do not have to load up any special packages to use them. We'll just look at a few of the most common functions. In the next sections we'll look at Tidyverse functions that that work in similar ways, but with some added functionality.
+
+<br>
+
+### Set the working directory
+
+The first step in reading in data is always just maing sure that R knows where to look for your data. You can do this in two ways. One is to specify the full file path to where your data are located as you read them in, and the other is to set the working diretory to where your data are and then read them in just using the file names from within that directory.  
+
+We'll use the latter strategy for ease. Set the working directory. Note that you path may differ from mine depending on where you put the dat and depending on what operating system you are using.
+
+
+```{r}
+setwd("~/EDAwithR/001_Importing_Data/tidyverse/data/")
+```
+
+<br>
+
+We can check that this worked with `getwd()` and then list out the files to make sure we have what we should:
+
+```{r}
+getwd()
+list.files()
+```
+
+Cool, that looks good to me.
+
+<br>
+
+### Reading in a .csv file
+
+`.csv` files are "comma separated value" files, and they are one of the most common ways that data are stored for import into R.
+
+We can easily read these in using `read.csv()` and store the data in an object:
+
+```{r}
+colleges <- read.csv("covid_colleges.csv")
+head(colleges) # look at the top of the data
+```
+
+
+
+
+
+
+

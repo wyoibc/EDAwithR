@@ -20,7 +20,9 @@ I **highly** recommend writing all of your code in an R script and commenting it
 
 <br>
 <br>
+
 ### Reading in the data
+
 <br>
 Start by either creating a directory called `EDAwithR` and downloading the data from Github or clone the Github repository for this workshop. Whichever of these you choose, I recommend doing it from your home directory. If you do and you are on a Mac or Linux machine, the `~` represents the home directory, and you can use the file paths exactly as they are written in this tutorial. If you are on Windows, paths are set up differently and you'll have to modify these for your machine.
 <br>

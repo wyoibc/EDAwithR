@@ -7,13 +7,16 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-knitr::opts_knit$set(root.dir = '~/EDAwithR')
+knitr::opts_knit$set(root.dir = "~/EDAwithR/Fish_data/Modified/")
 
 ```
 
 In this tutorial, we will explore some basic data manipulation in R, including reading, filtering, and transforming. These are essential steps for nearly all datasets, as data is rarely ever perfectly clean and formatted exactly right for all of the analyses that you're interested in.
 <br>
 I **highly** recommend writing all of your code in an R script and commenting it liberally. Even for relatively simple operations, if you need to repeat them or slightly tweak them, it's much easier to simply open up your script and re-run it or edit it than to re-type everything into R. Even more importantly, it ensures that there is a record of exactly what you did. If you haven't already dealt with trying to remember how you handled data when you come back it to after a while, you'll probably be surprised by just how quickly you can forget what you were doing and why.
+
+How to open a script is detailed in the section on importing data in base R.
+
 <br>
 
 * When there are large spaces in this tutorial, this indicates places where you should try to figure out how to code something. If you keep scrolling down, you'll find the solution, but you'll get a lot more out of it if you make a solid attempt to solve the problems yourself.
@@ -24,24 +27,24 @@ I **highly** recommend writing all of your code in an R script and commenting it
 ### Reading in the data
 
 <br>
-Start by either creating a directory called `EDAwithR` and downloading the data from Github or clone the Github repository for this workshop. Whichever of these you choose, I recommend doing it from your home directory. If you do and you are on a Mac or Linux machine, the `~` represents the home directory, and you can use the file paths exactly as they are written in this tutorial. If you are on Windows, paths are set up differently and you'll have to modify these for your machine.
+Start by either creating a directory called `EDAwithR` and downloading the data from Github or clone the Github repository for this workshop. How to do this and then appropriately set the working directory is detailed in the section on importing data in base R.
+
 <br>
+
 Start by setting our working directory.
 
 ```{r, eval = FALSE}
-setwd("~/EDAwithR")
+setwd("~/EDAwithR/Fish_data/Modified/")
 ```
-<br>
-We will also create an object with the path to our data directory. Making these kinds of shortcuts saves you from typing in file paths over and over, and also makes the script easily adapted to other datasets.
-```{r}
-data_dir <- "~/EDAwithR/Fish_data/Modified/"
-```
+
+**Again, make sure this points to the correct path for you, not my path.**
+
 <br>
 Then read in the data. Here, we have the data in two separate csv files for different data pertaining to some fish. One file is body size data with some information about sampling and the species, and the other file contains stable isotope data. Note that we're using `paste0()` inside `read.csv()` to paste together the paths and file names. `read.csv()` is the base R function for reading in csv (comma separated value) files, which is a common format for storing many types of biological data.
 
 ```{r}
-body <- read.csv(paste0(data_dir, "/", "Fish_body_size.csv"))
-iso <- read.csv(paste0(data_dir, "/","Fish_isotopes.csv"))
+body <- read.csv("Fish_body_size.csv")
+iso <- read.csv("Fish_isotopes.csv")
 ```
 <br>
 Let's take a quick look at the top few rows of each dataset.
@@ -91,17 +94,26 @@ summary(as.factor(body$Species))
 
 
 ### Fixing spelling
+
 Looking at either of those last outputs, you should notice that we have some misspellings. In some cases, "Coho" was written in all capital letters, and because R is case sensitive (as are most other coding languages), these are interpreted as different species. We also have "Dolly Varden" abbreviated down to just "Dolly" in one case, and a misspelling of "Steelhead" as "Steelhesd". We will want to correct these before we move forward with any further data processing.
+
 <br>
+
 There are a few ways to do this. One is by using an indexing approach to identify all of the elements of the objects that contain the values we want to replace, and replacing them with the values we want.
+
 <br>
+
 Let's build this out:
+
 <br>
+
 We'll start by identifying which elements of the "Species" column of `body` contains `"COHO"`
+
 ```{r, eval=FALSE}
 body$Species=="COHO"
 ```
 <br>
+
 You should see a long list of TRUE/FALSE values corresponding to whether each element is (TRUE) or is not (FALSE) "COHO". We can then use this to select out only the TRUE elements of `body$Species`:
 
 ```{r, eval=FALSE}
@@ -110,6 +122,7 @@ body$Species[body$Species=="COHO"]
 
 <br>
 <br>
+
 And finally, using that indexing to identify the incorrect entries, we can replace them with "Coho":
 ```{r}
 body$Species[body$Species=="COHO"] <- "Coho" # replace all instances of COHO with Coho
@@ -118,6 +131,7 @@ body$Species[body$Species=="COHO"] <- "Coho" # replace all instances of COHO wit
 <br>
 <br>
 <br>
+
 But there are also much faster ways to do this. The function `gsub()` performs pattern matching and replacement. One of the most essential skills in R is learning how to use new functions. If you already know what function you want to use, you can `?` before a function to get the built-in help documentation. Try it out: 
 
 ```{r}
@@ -363,11 +377,11 @@ in_both <- intersect(iso$Fish.code, body$Fish.code)
 in_both
 ```
 
-Then we can use that to subset both of the datasets down to only these shared samples, both in the same row order:
+Then we can use that to subset both of the datasets down to only these shared samples, both in the same row order. `match()` will give us the positions of it's first argument in it's second, and we'll use that to make sure that rows of both objects are in the same order as `in_both`.
 
 ```{r}
-iso_red <- iso[iso$Fish.code %in% in_both, ]
-body_red <- body[body$Fish.code %in% in_both, ]
+iso_red <- iso[match(in_both, iso$Fish.code), ]
+body_red <- body[match(in_both, body$Fish.code), ]
 dim(iso_red)
 dim(body_red)
 ```
@@ -409,7 +423,7 @@ dim(all_data)
 This has the same dimensions as the way that did this above using indexing and `cbind`. Looks good. Before we continue on, let's write this to a csv file. Then we can easily read this cleaned and merged data into R or another program anytime we want without having to repeat these steps:
 
 ```{r}
-write.csv(all_data, paste0(data_dir, "/", "fish_data_merged.csv"))
+write.csv(all_data, "fish_data_merged.csv")
 ```
 
 
@@ -435,7 +449,7 @@ write.csv(all_data, paste0(data_dir, "/", "fish_data_merged.csv"))
 
 
 ```{r}
-all_data <- read.csv(paste0(data_dir, "/", "fish_data_merged.csv"))
+all_data <- read.csv("fish_data_merged.csv")
 ```
 
 For some analyses, we might want to analyze a single species of fish at a time.

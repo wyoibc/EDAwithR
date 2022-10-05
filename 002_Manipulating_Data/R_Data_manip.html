@@ -381,7 +381,10 @@ or edit it than to re-type everything into R. Even more importantly, it
 ensures that there is a record of exactly what you did. If you haven’t
 already dealt with trying to remember how you handled data when you come
 back it to after a while, you’ll probably be surprised by just how
-quickly you can forget what you were doing and why. <br></p>
+quickly you can forget what you were doing and why.</p>
+<p>How to open a script is detailed in the section on importing data in
+base R.</p>
+<p><br></p>
 <ul>
 <li>When there are large spaces in this tutorial, this indicates places
 where you should try to figure out how to code something. If you keep
@@ -393,19 +396,14 @@ of it if you make a solid attempt to solve the problems yourself.</li>
 <h3>Reading in the data</h3>
 <p><br> Start by either creating a directory called
 <code>EDAwithR</code> and downloading the data from Github or clone the
-Github repository for this workshop. Whichever of these you choose, I
-recommend doing it from your home directory. If you do and you are on a
-Mac or Linux machine, the <code>~</code> represents the home directory,
-and you can use the file paths exactly as they are written in this
-tutorial. If you are on Windows, paths are set up differently and you’ll
-have to modify these for your machine. <br> Start by setting our working
-directory.</p>
-<pre class="r"><code>setwd(&quot;~/EDAwithR&quot;)</code></pre>
-<p><br> We will also create an object with the path to our data
-directory. Making these kinds of shortcuts saves you from typing in file
-paths over and over, and also makes the script easily adapted to other
-datasets.</p>
-<pre class="r"><code>data_dir &lt;- &quot;~/EDAwithR/Fish_data/Modified/&quot;</code></pre>
+Github repository for this workshop. How to do this and then
+appropriately set the working directory is detailed in the section on
+importing data in base R.</p>
+<p><br></p>
+<p>Start by setting our working directory.</p>
+<pre class="r"><code>setwd(&quot;~/EDAwithR/Fish_data/Modified/&quot;)</code></pre>
+<p><strong>Again, make sure this points to the correct path for you, not
+my path.</strong></p>
 <p><br> Then read in the data. Here, we have the data in two separate
 csv files for different data pertaining to some fish. One file is body
 size data with some information about sampling and the species, and the
@@ -414,8 +412,8 @@ other file contains stable isotope data. Note that we’re using
 the paths and file names. <code>read.csv()</code> is the base R function
 for reading in csv (comma separated value) files, which is a common
 format for storing many types of biological data.</p>
-<pre class="r"><code>body &lt;- read.csv(paste0(data_dir, &quot;/&quot;, &quot;Fish_body_size.csv&quot;))
-iso &lt;- read.csv(paste0(data_dir, &quot;/&quot;,&quot;Fish_isotopes.csv&quot;))</code></pre>
+<pre class="r"><code>body &lt;- read.csv(&quot;Fish_body_size.csv&quot;)
+iso &lt;- read.csv(&quot;Fish_isotopes.csv&quot;)</code></pre>
 <p><br> Let’s take a quick look at the top few rows of each dataset.</p>
 <pre class="r"><code>head(body) # Check the top or head of a dataset</code></pre>
 <pre><code>##   Fish.code Species Site     Date Weight..g. Fork.length..cm.
@@ -484,27 +482,34 @@ letters, and because R is case sensitive (as are most other coding
 languages), these are interpreted as different species. We also have
 “Dolly Varden” abbreviated down to just “Dolly” in one case, and a
 misspelling of “Steelhead” as “Steelhesd”. We will want to correct these
-before we move forward with any further data processing. <br> There are
-a few ways to do this. One is by using an indexing approach to identify
-all of the elements of the objects that contain the values we want to
-replace, and replacing them with the values we want. <br> Let’s build
-this out: <br> We’ll start by identifying which elements of the
-“Species” column of <code>body</code> contains <code>&quot;COHO&quot;</code></p>
+before we move forward with any further data processing.</p>
+<p><br></p>
+<p>There are a few ways to do this. One is by using an indexing approach
+to identify all of the elements of the objects that contain the values
+we want to replace, and replacing them with the values we want.</p>
+<p><br></p>
+<p>Let’s build this out:</p>
+<p><br></p>
+<p>We’ll start by identifying which elements of the “Species” column of
+<code>body</code> contains <code>&quot;COHO&quot;</code></p>
 <pre class="r"><code>body$Species==&quot;COHO&quot;</code></pre>
-<p><br> You should see a long list of TRUE/FALSE values corresponding to
+<p><br></p>
+<p>You should see a long list of TRUE/FALSE values corresponding to
 whether each element is (TRUE) or is not (FALSE) “COHO”. We can then use
 this to select out only the TRUE elements of
 <code>body$Species</code>:</p>
 <pre class="r"><code>body$Species[body$Species==&quot;COHO&quot;]</code></pre>
-<p><br> <br> And finally, using that indexing to identify the incorrect
-entries, we can replace them with “Coho”:</p>
+<p><br> <br></p>
+<p>And finally, using that indexing to identify the incorrect entries,
+we can replace them with “Coho”:</p>
 <pre class="r"><code>body$Species[body$Species==&quot;COHO&quot;] &lt;- &quot;Coho&quot; # replace all instances of COHO with Coho</code></pre>
-<p><br> <br> <br> But there are also much faster ways to do this. The
-function <code>gsub()</code> performs pattern matching and replacement.
-One of the most essential skills in R is learning how to use new
-functions. If you already know what function you want to use, you can
-<code>?</code> before a function to get the built-in help documentation.
-Try it out:</p>
+<p><br> <br> <br></p>
+<p>But there are also much faster ways to do this. The function
+<code>gsub()</code> performs pattern matching and replacement. One of
+the most essential skills in R is learning how to use new functions. If
+you already know what function you want to use, you can <code>?</code>
+before a function to get the built-in help documentation. Try it
+out:</p>
 <pre class="r"><code>?gsub()</code></pre>
 <p><br></p>
 <ul>
@@ -652,9 +657,12 @@ both datasets:</p>
 <pre class="r"><code>in_both &lt;- intersect(iso$Fish.code, body$Fish.code)</code></pre>
 <pre class="r"><code>in_both</code></pre>
 <p>Then we can use that to subset both of the datasets down to only
-these shared samples, both in the same row order:</p>
-<pre class="r"><code>iso_red &lt;- iso[iso$Fish.code %in% in_both, ]
-body_red &lt;- body[body$Fish.code %in% in_both, ]
+these shared samples, both in the same row order. <code>match()</code>
+will give us the positions of it’s first argument in it’s second, and
+we’ll use that to make sure that rows of both objects are in the same
+order as <code>in_both</code>.</p>
+<pre class="r"><code>iso_red &lt;- iso[match(in_both, iso$Fish.code), ]
+body_red &lt;- body[match(in_both, body$Fish.code), ]
 dim(iso_red)</code></pre>
 <pre><code>## [1] 409   5</code></pre>
 <pre class="r"><code>dim(body_red)</code></pre>
@@ -733,7 +741,7 @@ indexing and <code>cbind</code>. Looks good. Before we continue on,
 let’s write this to a csv file. Then we can easily read this cleaned and
 merged data into R or another program anytime we want without having to
 repeat these steps:</p>
-<pre class="r"><code>write.csv(all_data, paste0(data_dir, &quot;/&quot;, &quot;fish_data_merged.csv&quot;))</code></pre>
+<pre class="r"><code>write.csv(all_data, &quot;fish_data_merged.csv&quot;)</code></pre>
 </div>
 <div id="further-filtering-and-subsetting-examples" class="section level3">
 <h3>Further filtering and subsetting examples</h3>
@@ -743,7 +751,7 @@ same <code>read.csv()</code> function that we used to initially read in
 the two data files.</p>
 <p><br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
 <br></p>
-<pre class="r"><code>all_data &lt;- read.csv(paste0(data_dir, &quot;/&quot;, &quot;fish_data_merged.csv&quot;))</code></pre>
+<pre class="r"><code>all_data &lt;- read.csv(&quot;fish_data_merged.csv&quot;)</code></pre>
 <p>For some analyses, we might want to analyze a single species of fish
 at a time.</p>
 <p><strong>Make an object called <code>coho_data</code> that contains

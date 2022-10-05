@@ -387,9 +387,8 @@ can provide quick and easy insight into your data.</p>
 <p><br></p>
 <p>We’ll start by reading back in the data that we combined
 previously.</p>
-<pre class="r"><code>setwd(&quot;~/EDAwithR&quot;)
-data_dir &lt;- &quot;~/r4grads/Fish_data/Modified/&quot;
-fish_dat &lt;- read.csv(paste0(data_dir, &quot;/&quot;, &quot;fish_data_merged.csv&quot;))</code></pre>
+<pre class="r"><code>setwd(&quot;~/r4grads/Fish_data/Modified/&quot;)
+fish_dat &lt;- read.csv(&quot;fish_data_merged.csv&quot;)</code></pre>
 <p><br></p>
 </div>
 <div id="relationships-among-continuous-variables" class="section level3">
@@ -534,7 +533,7 @@ plotting device, then plot like normal, but now everything being plotted
 goes to the pdf file that is open for writing. When we’re done, we use
 <code>dev.off()</code> to turn off and close the active plotting device,
 leaving us with our completed pdf file.</p>
-<pre class="r"><code>pdf(file=paste0(data_dir, &quot;/&quot;, &quot;boplot.pdf&quot;), width=6, height=5)
+<pre class="r"><code>pdf(file=&quot;boplot.pdf&quot;, width=6, height=5)
 par(mar=c(10,4.1,4.1,2.1))
 boxplot(Weight..g. ~ Species, data = fish_dat, main=&quot;Fish weights&quot;,
    xlab = NULL, ylab = &quot;Weight (g)&quot;, las = 2)

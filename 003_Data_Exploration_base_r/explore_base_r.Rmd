@@ -7,7 +7,7 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-knitr::opts_knit$set(root.dir = '~/EDAwithR')
+knitr::opts_knit$set(root.dir = "~/r4grads/Fish_data/Modified/")
 
 ```
 
@@ -26,9 +26,8 @@ We'll start by reading back in the data that we combined previously.
 
 
 ```{r}
-setwd("~/EDAwithR")
-data_dir <- "~/r4grads/Fish_data/Modified/"
-fish_dat <- read.csv(paste0(data_dir, "/", "fish_data_merged.csv"))
+setwd("~/r4grads/Fish_data/Modified/")
+fish_dat <- read.csv("fish_data_merged.csv")
 ```
 
 <br>
@@ -202,7 +201,7 @@ This looks ok. There is a lot more customization we could do with this, but agai
 Let's write this plot out to pdf. You *can* save plots directly from RStudio using some GUI options, but the quality is not as good as plotting to a pdf or other image format using `pdf()`, `png()`, etc. I personally prefer pdf format because it is vector-based and maintains resolution under infinite zoom. We use the function `pdf()` to open a pdf plotting device, then plot like normal, but now everything being plotted goes to the pdf file that is open for writing. When we're done, we use `dev.off()` to turn off and close the active plotting device, leaving us with our completed pdf file.
 
 ```{r}
-pdf(file=paste0(data_dir, "/", "boplot.pdf"), width=6, height=5)
+pdf(file="boplot.pdf", width=6, height=5)
 par(mar=c(10,4.1,4.1,2.1))
 boxplot(Weight..g. ~ Species, data = fish_dat, main="Fish weights",
    xlab = NULL, ylab = "Weight (g)", las = 2)
